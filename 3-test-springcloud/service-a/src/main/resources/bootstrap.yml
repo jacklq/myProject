@@ -6,6 +6,13 @@ spring:
   application:
     # 服务名称 - 服务之间使用名称进行通讯
     name: service-objcat-a
+  #注册中心配置
+  cloud:
+    config:
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: service-config
 eureka:
   client:
     service-url:
