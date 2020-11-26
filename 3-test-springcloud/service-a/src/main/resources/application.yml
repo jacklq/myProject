@@ -25,3 +25,11 @@ eureka:
 #  ConnectTimeout: 5000
 #  #读取资源超时间
 #  ReadTimeout: 5000
+
+#  忽略hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
