@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lqtest.druid_mybatis.lqtest.dao.StudentDao" >
+  <resultMap id="BaseResultMap" type="com.lqtest.druid_mybatis.lqtest.entity.Student" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="num" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sex" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="age" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="creTim" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, num, sname, sex, age, creTim
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from student
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lqtest.druid_mybatis.lqtest.entity.Student" >
+    insert into student (id, num, sname, 
+      sex, age, creTim)
+    values (#{id,jdbcType=BIGINT}, #{num,jdbcType=VARCHAR}, #{sname,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{cretim,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lqtest.druid_mybatis.lqtest.entity.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="cretim != null" >
+        creTim,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="cretim != null" >
+        #{cretim,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lqtest.druid_mybatis.lqtest.entity.Student" >
+    update student
+    <set >
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="cretim != null" >
+        creTim = #{cretim,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lqtest.druid_mybatis.lqtest.entity.Student" >
+    update student
+    set num = #{num,jdbcType=VARCHAR},
+      sname = #{sname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=VARCHAR},
+      creTim = #{cretim,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--批量操作-->
+  <select id="selectBatchByPrimaryKey"   parameterType="java.util.List" resultType="com.lqtest.druid_mybatis.lqtest.entity.Student" >
+    select * from student  WHERE  id in
+    <foreach collection="list" item="id" open="(" close=")"  separator=",">
+      #{id}
+    </foreach>
+  </select>
+
+  <!-- 批量更新第一种方法，通过接收传进来的参数list进行循环着组装sql -->
+  <update id="updateBatchForeach" parameterType="java.util.List" >
+    <foreach collection="list" item="student" index="index" open="" close="" separator=";">
+      update student
+      <set >
+        <if test="student.num != null" >
+          num = #{student.num,jdbcType=VARCHAR},
+        </if>
+        <if test="student.sname != null" >
+          sname = #{student.sname,jdbcType=VARCHAR},
+        </if>
+        <if test="student.sex != null" >
+          sex = #{student.sex,jdbcType=VARCHAR},
+        </if>
+        <if test="student.age != null" >
+            age = #{student.age,jdbcType=VARCHAR},
+        </if>
+
+        <if test="student.cretim != null" >
+          cretim = #{student.cretim,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where id = #{student.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+
+  <!-- 批量更新第二种方法，通过 case when语句变相的进行批量更新 -->
+  <update id="updateBatchCaseWhen" parameterType="java.util.List" >
+    update student
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="num =case" suffix="end,">
+        <foreach collection="list" item="student" index="index">
+          <if test="student.num !=null">
+            when id=#{student.id} then #{student.num}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="sname =case" suffix="end,">
+        <foreach collection="list" item="student" index="index">
+          <if test="student.sname !=null">
+            when id=#{student.id} then #{student.sname}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="sex =case" suffix="end,">
+        <foreach collection="list" item="student" index="index">
+          <if test="student.sex!=null">
+            when id=#{student.id} then #{student.sex}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="age =case" suffix="end,">
+        <foreach collection="list" item="student" index="index">
+          <if test="student.age !=null">
+            when id=#{student.id} then #{student.age}
+          </if>
+        </foreach>
+      </trim>
+
+      <trim prefix="cretim =case" suffix="end,">
+          <foreach collection="list" item="student" index="index">
+            <if test="student.cretim !=null">
+              when id=#{student.id} then #{student.cretim}
+            </if>
+          </foreach>
+      </trim>
+    </trim>
+    where
+    <foreach collection="list" separator="or" item="student" index="index" >
+      id=#{student.id}
+    </foreach>
+  </update>
+
+  <select id="deleteBatchByPrimaryKey"    parameterType="java.lang.Long" >
+    delete  from student  WHERE  id in
+    <foreach collection="list" item="id" open="(" close=")"  separator=",">
+      #{id}
+    </foreach>
+  </select>
+
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into student ( <include refid="Base_Column_List" /> )
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id},#{item.num},#{item.sname},#{item.sex},#{item.age},#{item.cretim})
+    </foreach>
+  </insert>
+
+
+</mapper>
