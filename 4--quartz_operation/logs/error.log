@@ -1,0 +1,50 @@
+2020-12-02 15:57:21 [QuartzScheduler_quartzScheduler-LAPTOP-9N12UK6F1606444735681_MisfireHandler] ERROR o.s.scheduling.quartz.LocalDataSourceJobStore - MisfireHandler: Error handling misfires: Failed to obtain DB connection from data source 'springNonTxDataSource.quartzScheduler': java.sql.SQLException: HikariPool-1 - Interrupted during connection acquisition
+org.quartz.JobPersistenceException: Failed to obtain DB connection from data source 'springNonTxDataSource.quartzScheduler': java.sql.SQLException: HikariPool-1 - Interrupted during connection acquisition
+	at org.quartz.impl.jdbcjobstore.JobStoreCMT.getNonManagedTXConnection(JobStoreCMT.java:168)
+	at org.quartz.impl.jdbcjobstore.JobStoreSupport.doRecoverMisfires(JobStoreSupport.java:3231)
+	at org.quartz.impl.jdbcjobstore.JobStoreSupport$MisfireHandler.manage(JobStoreSupport.java:3997)
+	at org.quartz.impl.jdbcjobstore.JobStoreSupport$MisfireHandler.run(JobStoreSupport.java:4018)
+Caused by: java.sql.SQLException: HikariPool-1 - Interrupted during connection acquisition
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:187)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:148)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+	at org.springframework.scheduling.quartz.LocalDataSourceJobStore$2.getConnection(LocalDataSourceJobStore.java:134)
+	at org.quartz.utils.DBConnectionManager.getConnection(DBConnectionManager.java:108)
+	at org.quartz.impl.jdbcjobstore.JobStoreCMT.getNonManagedTXConnection(JobStoreCMT.java:165)
+	... 3 common frames omitted
+Caused by: java.lang.InterruptedException: null
+	at java.util.concurrent.SynchronousQueue.poll(SynchronousQueue.java:944)
+	at com.zaxxer.hikari.util.ConcurrentBag.borrow(ConcurrentBag.java:157)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:166)
+	... 8 common frames omitted
+2020-12-02 15:57:21 [QuartzScheduler_quartzScheduler-LAPTOP-9N12UK6F1606444735681_ClusterManager] ERROR o.s.scheduling.quartz.LocalDataSourceJobStore - ClusterManager: Error managing cluster: Failed to obtain DB connection from data source 'springNonTxDataSource.quartzScheduler': java.sql.SQLException: HikariPool-1 - Interrupted during connection acquisition
+org.quartz.JobPersistenceException: Failed to obtain DB connection from data source 'springNonTxDataSource.quartzScheduler': java.sql.SQLException: HikariPool-1 - Interrupted during connection acquisition
+	at org.quartz.impl.jdbcjobstore.JobStoreCMT.getNonManagedTXConnection(JobStoreCMT.java:168)
+	at org.quartz.impl.jdbcjobstore.JobStoreSupport.doCheckin(JobStoreSupport.java:3307)
+	at org.quartz.impl.jdbcjobstore.JobStoreSupport$ClusterManager.manage(JobStoreSupport.java:3920)
+	at org.quartz.impl.jdbcjobstore.JobStoreSupport$ClusterManager.run(JobStoreSupport.java:3957)
+Caused by: java.sql.SQLException: HikariPool-1 - Interrupted during connection acquisition
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:187)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:148)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+	at org.springframework.scheduling.quartz.LocalDataSourceJobStore$2.getConnection(LocalDataSourceJobStore.java:134)
+	at org.quartz.utils.DBConnectionManager.getConnection(DBConnectionManager.java:108)
+	at org.quartz.impl.jdbcjobstore.JobStoreCMT.getNonManagedTXConnection(JobStoreCMT.java:165)
+	... 3 common frames omitted
+Caused by: java.lang.InterruptedException: null
+	at java.util.concurrent.SynchronousQueue.poll(SynchronousQueue.java:944)
+	at com.zaxxer.hikari.util.ConcurrentBag.borrow(ConcurrentBag.java:157)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:166)
+	... 8 common frames omitted
+2020-12-02 15:57:21 [http-nio-8888-exec-8] ERROR o.s.b.a.w.s.e.ErrorMvcAutoConfiguration$SpelView - Cannot render error page for request [/job/job-report] and exception [nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-1) has been closed.
+### The error may exist in com/zxq/dao/JobInfoMapper.java (best guess)
+### The error may involve com.zxq.dao.JobInfoMapper.selectCount
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-1) has been closed.] as the response has already been committed. As a result, the response may have the wrong status code.
+2020-12-02 15:57:21 [http-nio-8888-exec-4] ERROR o.s.b.a.w.s.e.ErrorMvcAutoConfiguration$SpelView - Cannot render error page for request [/job/job-report] and exception [nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-1) has been closed.
+### The error may exist in com/zxq/dao/JobInfoMapper.java (best guess)
+### The error may involve com.zxq.dao.JobInfoMapper.selectCount
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-1) has been closed.] as the response has already been committed. As a result, the response may have the wrong status code.
