@@ -10,5 +10,5 @@
                     <version>2.0.2.RELEASE</version>
          </dependency>
 
-2020-11-26
+2020-11-26   https://www.jianshu.com/p/f6c0793e8458
     增加分布式配置中心SpringCloudConfig

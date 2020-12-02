@@ -50,6 +50,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         Integer minIdle=(Integer) pool.get("min-idle");
         Integer maxTotal=(Integer) pool.get("max-active");
         Integer maxWaitMillis=(Integer) pool.get("max-wait");
+        Integer database=Integer.valueOf(redisParamConfig.getDatabase());
         String host=redisParamConfig.getHost();
         String port=redisParamConfig.getPort();
         String password=redisParamConfig.getPassword();
@@ -63,6 +64,7 @@ public class RedisConfig extends CachingConfigurerSupport {
                 .build();
         /* case1:单机redis*/
         RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
+        redisConfig.setDatabase(database);
         redisConfig.setHostName(host==null||"".equals(host)?"localhost":host);
         redisConfig.setPort(Integer.valueOf(port==null||"".equals(port)?"6379":port));
         if (password != null && !"".equals(password)) {
