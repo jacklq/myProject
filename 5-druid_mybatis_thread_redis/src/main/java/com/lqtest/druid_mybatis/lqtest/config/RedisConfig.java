@@ -103,6 +103,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory lettuceConnectionFactory) {
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
+        lettuceConnectionFactory.setShareNativeConnection(false);/*设置为false否则不能有多个连接*/
         // 配置连接工厂
         template.setConnectionFactory(lettuceConnectionFactory);
 
